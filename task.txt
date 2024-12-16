@@ -1,0 +1,6 @@
+Define Page
+Rule page
+Rule Button
+Rule onMounted
+Responsive
+sửa, xóa thì dùng filter trên bảng thay vì gọi lại api
