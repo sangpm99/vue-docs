@@ -2,14 +2,14 @@ export const useUserStore = defineStore("user-store", () => {
   const createUser = async (
     createUserParams: CreateUserParams
     ): Promise<void> => {
-    isLoading.value = true;
+    loading.value = true;
     const params = removeEmptyField(createUserParams);
     try {
       await axiosDefault.post("/User/Create", params);
     } catch (error) {
       return Promise.reject(error);
     } finally {
-      isLoading.value = false;
+      loading.value = false;
     }
     };
 

@@ -1,70 +1,3 @@
-<script lang="ts" setup>
-import { emailValidator, requiredValidator } from "@/@core/utils/validators";
-import { PerfectScrollbar } from "vue3-perfect-scrollbar";
-import { VForm } from "vuetify/components/VForm";
-import { useNavigationDrawerEscHandler } from "@/composables";
-import type { ValidateErrorsUser as ValidateErrors } from "@/types/accounts/users";
-import type { ErrorResponse } from "@/types";
-
-// 👉 Props & Emits
-interface Props {
-  isDrawerOpen: boolean;
-}
-interface Emit {
-  (e: "update:isDrawerOpen", value: boolean): void;
-  (e: "update:submit", value: boolean): void;
-}
-const props = defineProps<Props>();
-const emit = defineEmits<Emit>();
-
-// 👉 Stores
-
-// 👉 States
-const loading: Ref<boolean> = ref(false);
-const refForm = ref<VForm>();
-// replace
-const buyerEmail: Ref<string> = ref("");
-
-/// notify
-const errors: Ref<ValidateErrors | null> = ref(null);
-const isSnackbarVisible: Ref<boolean> = ref(false);
-const message: Ref<string> = ref("");
-
-// 👉 Functions
-const handleDrawerModelValueUpdate = (val: boolean) => {
-  refForm.value?.reset();
-  refForm.value?.resetValidation();
-  emit("update:isDrawerOpen", val);
-};
-
-const handleSubmit = () => {
-  refForm.value?.validate().then(async ({ valid }) => {
-    if (valid) {
-      try {
-        // ... api
-        message.value = "Successfully";
-        isSnackbarVisible.value = true;
-        handleDrawerModelValueUpdate(false);
-        emit("update:submit", true);
-      } catch (error) {
-        const { response } = error as ErrorResponse<ValidateErrors>;
-        const { data, status } = response;
-        if (status === 400) {
-          errors.value = data.errors || null;
-        }
-        message.value = data.title || "Something went wrong.";
-        isSnackbarVisible.value = true;
-      }
-    }
-  });
-};
-
-// type esc to close drawer
-useNavigationDrawerEscHandler("Escape", () =>
-  handleDrawerModelValueUpdate(false)
-);
-</script>
-
 <template>
   <VNavigationDrawer
     :model-value="props.isDrawerOpen"
@@ -125,3 +58,69 @@ useNavigationDrawerEscHandler("Escape", () =>
       {{ message }}
     </VSnackbar>
 </template>
+
+<script lang="ts" setup>
+import { emailValidator, requiredValidator } from "@/@core/utils/validators";
+import { PerfectScrollbar } from "vue3-perfect-scrollbar";
+import { VForm } from "vuetify/components/VForm";
+import { useNavigationDrawerEscHandler } from "@/composables";
+import type { ValidateErrorsUser as ValidateErrors } from "@/types/accounts/users";
+import type { ErrorResponse } from "@/types";
+
+// 👉 Props & Emits
+interface Props {
+  isDrawerOpen: boolean;
+}
+interface Emit {
+  (e: "update:isDrawerOpen", value: boolean): void;
+  (e: "update:submit", value: boolean): void;
+}
+const props = defineProps<Props>();
+const emit = defineEmits<Emit>();
+
+// 👉 Stores
+
+// 👉 States
+const refForm = ref<VForm>();
+// replace
+const buyerEmail: Ref<string> = ref("");
+
+/// notify
+const errors: Ref<ValidateErrors | null> = ref(null);
+const isSnackbarVisible: Ref<boolean> = ref(false);
+const message: Ref<string> = ref("");
+
+// 👉 Functions
+const handleDrawerModelValueUpdate = (val: boolean) => {
+  refForm.value?.reset();
+  refForm.value?.resetValidation();
+  emit("update:isDrawerOpen", val);
+};
+
+const handleSubmit = () => {
+  refForm.value?.validate().then(async ({ valid }) => {
+    if (valid) {
+      try {
+        // ... api
+        message.value = "Successfully";
+        isSnackbarVisible.value = true;
+        handleDrawerModelValueUpdate(false);
+        emit("update:submit", true);
+      } catch (error) {
+        const { response } = error as ErrorResponse<ValidateErrors>;
+        const { data, status } = response;
+        if (status === 400) {
+          errors.value = data.errors || null;
+        }
+        message.value = data.title || "Something went wrong.";
+        isSnackbarVisible.value = true;
+      }
+    }
+  });
+};
+
+// type esc to close drawer
+useNavigationDrawerEscHandler("Escape", () =>
+  handleDrawerModelValueUpdate(false)
+);
+</script>
