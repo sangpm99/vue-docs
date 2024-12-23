@@ -1,0 +1,8 @@
+interface ValidationErrors {
+  ["[0].MockupURLs"]: string[];
+  ["[0].ProductName"]: string[];
+  ["[0].productSubName"]: string[];
+  ["[0].ProductCode"]: string[];
+  ["[0].mockupURLs"]: string[];
+  ["[0].ProductTypeId"]: string[];
+}
