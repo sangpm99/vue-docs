@@ -116,6 +116,7 @@ const handleSubmit = () => {
         emit("update:submit", true);
         message.value = "Successfully";
         isSnackbarVisible.value = true;
+        handleReset();
       } catch (error) {
         const { response } = error as ErrorResponse<ValidateErrors>;
         const { data, status } = response;

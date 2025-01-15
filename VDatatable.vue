@@ -1,9 +1,9 @@
 <template>
     <VDataTableServer
-        :loading="orderStore.loaadin"
-        :items="orders ? orders.items : []"
+        :loading="orderStore.loading"
+        :items="pagedResponse ? pagedResponse.items : []"
         item-value="id"
-        :items-length="orders ? orders.itemsCount : 0"
+        :items-length="pagedResponse ? pagedResponse.itemsCount : 0"
         :headers="headers"
         hide-default-footer
         show-select
@@ -13,7 +13,44 @@
     >
         <template #item.order="{ item }">
         </template>
-</VDataTableServer>
+
+        <template #item.actions="{ item }">
+            <div class="d-flex cursor-pointer">
+                <IconBtn
+                >
+                <VIcon icon="ri-edit-box-line" color="warning"/>
+                </IconBtn>
+
+                <IconBtn
+                >
+                <VIcon icon="ri-delete-bin-7-line" color="error"/>
+                </IconBtn>
+            </div>
+        </template>
+
+        <template #bottom>
+            <PaginationFrame>
+                <template #pageSize>
+                <VSelect
+                    v-model="searchQuery.pageSize"
+                    :items="pageSizeOptions"
+                    variant="outlined"
+                    density="compact"
+                    @update:model-value="getOrders"
+                />
+                </template>
+
+                <template #pagination>
+                <VPagination
+                    v-model="searchQuery.pageIndex"
+                    :length="totalPage"
+                    :total-visible="xs ? 1 : totalVisible"
+                    @update:model-value="getOrders"
+                />
+                </template>
+            </PaginationFrame>
+        </template>
+    </VDataTableServer>
 </template>
 
 <script lang="ts" setup>
