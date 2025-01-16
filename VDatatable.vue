@@ -55,7 +55,7 @@
 
 <script lang="ts" setup>
 import PaginationFrame from "@/components/PaginationFrame.vue";
-import {pageIndex, pageSize, pageSizeOptions, totalVisible} from "@/enums"
+import {pageIndex, pageSize, pageSizeOptions, totalVisible} from "@/enums";
 
 import {useDisplay} from "vuetify";
 

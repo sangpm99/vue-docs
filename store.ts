@@ -12,7 +12,7 @@ export const useProductListingStore = defineStore("product-listing-store", () =>
     const params = removeEmptyField(searchQuery);
     try {
       const { data } = await axiosDefault.get<PagedResponse<Product, string>>(
-        "/ProductListing/GetProducts",
+        `/ProductListing/GetProducts`,
         {params: params}
       );
       return data;
