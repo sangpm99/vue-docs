@@ -1,18 +1,12 @@
-<template>
-    <VTooltip text="Create Product">
-        <template v-slot:activator="{ props }">
-        <VBtn
-            v-if="
-            $can('Create', 'Permission.Product') &&
-            $can('Read', 'Permission.ProductType')
-            "
-            v-bind="props"
-            to="/product/create"
-            color="primary"
-            class="float-end rounded"
-            icon="ri-add-line"
-        >
-        </VBtn>
-        </template>
-    </VTooltip>
-</template>
+<VTooltip text="Create Role">
+    <template v-slot:activator="{props}">
+      <VBtn
+        v-if="can('Create', 'Permission.Role')"
+        v-bind="props"
+        class="rounded"
+        icon="mdi-plus"
+        @click="isCreateDrawerOpen = true"
+      >
+      </VBtn>
+    </template>
+  </VTooltip>
