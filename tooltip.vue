@@ -1,4 +1,4 @@
-<VTooltip text="Create Role">
+<VTooltip text="Create">
     <template v-slot:activator="{props}">
       <VBtn
         v-if="can('Create', 'Permission.Role')"
