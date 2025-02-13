@@ -13,7 +13,7 @@ export const useProductListingStore = defineStore("product-listing-store", () =>
     try {
       const { data } = await axiosDefault.get<PagedResponse<Product, string>>(
         `/ProductListing/GetProducts`,
-        {params: params}
+        { params: params, paramsSerializer: { indexes: true } }
       );
       return data;
     } catch (error) {

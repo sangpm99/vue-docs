@@ -1,5 +1,6 @@
 <template>
     <VDataTableServer
+        density="compact"
         :loading="orderStore.loading"
         :items="pagedResponse ? pagedResponse.items : []"
         item-value="id"
