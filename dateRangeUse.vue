@@ -19,7 +19,7 @@ const get = async () => {
   // api
 };
 
-const clear = () => {
+const onReset = () => {
   from.value = null;
   to.value = null;
   get();
