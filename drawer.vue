@@ -93,13 +93,13 @@ const buyerEmail: Ref<string> = ref("");
 
 /// notify
 const refForm = ref<VForm>();
-const errors: Ref<ValidateErrors | null> = ref(null);
-const isSnackbarVisible: Ref<boolean> = ref(false);
-const message: Ref<string> = ref("");
+const errors = ref<ValidateErrors | null>(null);
+const isSnackbarVisible = ref<boolean>(false);
+const message = ref<string>("");
 
 // 👉 Functions
 const handleReset = () => {
-  refForm.value?.reset();
+  // refForm.value?.reset(); // bi loi
   refForm.value?.resetValidation();
 };
 
