@@ -1,3 +1,91 @@
+
+
+<script lang="ts" setup>
+
+//// Important: Change id form first
+import { requiredValidator } from "@/@core/utils/validators";
+import { useNavigationDrawerEscHandler } from "@/composables";
+import type { ErrorResponse } from "@/types";
+import type { ValidateErrors } from "@/types/accounts/users";
+import { PerfectScrollbar } from "vue3-perfect-scrollbar";
+import { VForm } from "vuetify/components/VForm";
+
+// 👉 Props & Emits
+interface Props {
+  isDrawerOpen: boolean;
+}
+interface Emit {
+  (e: "update:isDrawerOpen", value: boolean): void;
+  (e: "submit"): void;
+}
+const props = defineProps<Props>();
+const emit = defineEmits<Emit>();
+
+// 👉 Stores
+
+// 👉 States
+const loading: Ref<boolean> = ref(false)
+// replace
+const buyerEmail: Ref<string> = ref("");
+
+/// notify
+const refForm = ref<VForm>();
+const errors = ref<ValidateErrors | null>(null);
+const isSnackbarVisible = ref<boolean>(false);
+const message = ref<string>("");
+
+// 👉 Functions
+const handleReset = () => {
+  // refForm.value?.reset(); // bi loi
+  refForm.value?.resetValidation();
+};
+
+const handleDrawerModelValueUpdate = (val: boolean) => {
+  emit("update:isDrawerOpen", val);
+};
+
+const handleSubmit = () => {
+  refForm.value?.validate().then(async ({ valid }) => {
+    if (valid) {
+      try {
+        // ... api
+        handleDrawerModelValueUpdate(false);
+        emit("submit");
+        message.value = "Successfully";
+        isSnackbarVisible.value = true;
+        handleReset();
+      } catch (error) {
+        const { response } = error as ErrorResponse<ValidateErrors>;
+        const { data, status } = response;
+        if (status === 400) {
+          errors.value = data.errors || null;
+        }
+        message.value = data.title || "Something went wrong.";
+        isSnackbarVisible.value = true;
+      }
+    }
+  });
+};
+
+// type esc to close drawer
+useNavigationDrawerEscHandler("Escape", () =>
+    handleDrawerModelValueUpdate(false)
+);
+
+watch(
+    () => props.isDrawerOpen,
+    () => {
+      if (props.isDrawerOpen) {
+        handleReset();
+        tracking.value = {
+          trackingCarrier: props.trackingCarrier ?? "",
+          trackingNumber: props.trackingNumber ?? "",
+        };
+      }
+    }
+);
+</script>
+
 <template>
   <VNavigationDrawer
       :model-value="props.isDrawerOpen"
@@ -58,93 +146,3 @@
     {{ message }}
   </VSnackbar>
 </template>
-
-<script lang="ts" setup>
-
-//// Important: Change id form first
-
-
-
-
-import { emailValidator, requiredValidator } from "@/@core/utils/validators";
-import { useNavigationDrawerEscHandler } from "@/composables";
-import type { ErrorResponse } from "@/types";
-import type { ValidateErrors } from "@/types/accounts/users";
-import { PerfectScrollbar } from "vue3-perfect-scrollbar";
-import { VForm } from "vuetify/components/VForm";
-
-// 👉 Props & Emits
-interface Props {
-  isDrawerOpen: boolean;
-}
-interface Emit {
-  (e: "update:isDrawerOpen", value: boolean): void;
-  (e: "update:submit", value: boolean): void;
-}
-const props = defineProps<Props>();
-const emit = defineEmits<Emit>();
-
-// 👉 Stores
-
-// 👉 States
-const loading: Ref<boolean> = ref(false)
-// replace
-const buyerEmail: Ref<string> = ref("");
-
-/// notify
-const refForm = ref<VForm>();
-const errors = ref<ValidateErrors | null>(null);
-const isSnackbarVisible = ref<boolean>(false);
-const message = ref<string>("");
-
-// 👉 Functions
-const handleReset = () => {
-  // refForm.value?.reset(); // bi loi
-  refForm.value?.resetValidation();
-};
-
-const handleDrawerModelValueUpdate = (val: boolean) => {
-  emit("update:isDrawerOpen", val);
-};
-
-const handleSubmit = () => {
-  refForm.value?.validate().then(async ({ valid }) => {
-    if (valid) {
-      try {
-        // ... api
-        handleDrawerModelValueUpdate(false);
-        emit("update:submit", true);
-        message.value = "Successfully";
-        isSnackbarVisible.value = true;
-        handleReset();
-      } catch (error) {
-        const { response } = error as ErrorResponse<ValidateErrors>;
-        const { data, status } = response;
-        if (status === 400) {
-          errors.value = data.errors || null;
-        }
-        message.value = data.title || "Something went wrong.";
-        isSnackbarVisible.value = true;
-      }
-    }
-  });
-};
-
-// type esc to close drawer
-useNavigationDrawerEscHandler("Escape", () =>
-    handleDrawerModelValueUpdate(false)
-);
-
-watch(
-    () => props.isDrawerOpen,
-    () => {
-      if (props.isDrawerOpen) {
-        handleReset();
-        tracking.value = {
-          trackingCarrier: props.trackingCarrier ?? "",
-          trackingNumber: props.trackingNumber ?? "",
-        };
-      }
-    }
-);
-</script>
