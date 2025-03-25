@@ -10,7 +10,6 @@ import type { ValidateErrors } from "@/types/accounts/users";
 import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { VForm } from "vuetify/components/VForm";
 
-// 👉 Props & Emits
 interface Props {
   isDrawerOpen: boolean;
 }
@@ -21,9 +20,7 @@ interface Emit {
 const props = defineProps<Props>();
 const emit = defineEmits<Emit>();
 
-// 👉 Stores
 
-// 👉 States
 const loading: Ref<boolean> = ref(false)
 // replace
 const buyerEmail: Ref<string> = ref("");
@@ -34,9 +31,8 @@ const errors = ref<ValidateErrors | null>(null);
 const isSnackbarVisible = ref<boolean>(false);
 const message = ref<string>("");
 
-// 👉 Functions
 const handleReset = () => {
-  // refForm.value?.reset(); // bi loi
+  refForm.value?.reset();
   refForm.value?.resetValidation();
 };
 
