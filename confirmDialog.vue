@@ -19,7 +19,7 @@ const handleOpenDeleteDialog = (p: Price) => {
 const confirmDelete = async (value: boolean) => {
   if (value && price.value && pagedResponse.value) {
     await catalogStore.deletePrice(price.value.id);
-    pagedResponse.value.items = pagedResponse.value.items.filter((item) => item.id !== price.value.id);
+    pagedResponse.value.items = pagedResponse.value.items.filter((item) => item.id !== price.value?.id!);
   }
 };
 </script>
