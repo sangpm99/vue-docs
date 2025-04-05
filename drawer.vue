@@ -115,7 +115,7 @@ watch(
     <VDivider />
 
     <PerfectScrollbar :options="{ wheelPropagation: false }">
-      <VCard flat>
+      <VCard flat v-if="props.isDrawerOpen">
         <VCardText>
           <VForm id="form" ref="refForm" @submit.prevent="handleSubmit">
             <VRow>
