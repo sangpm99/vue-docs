@@ -53,10 +53,15 @@ const handleSubmit = () => {
       } catch (error) {
         const { response } = error as ErrorResponse<ValidateErrors>;
         const { data, status } = response;
-        if (status === 400) {
-          errors.value = data.errors || null;
-        }
+        errors.value = data.errors || null;
         message.value = data.title || "Something went wrong.";
+        if (status === 400) {
+          if (data.errors) {
+            Object.entries(data.errors).forEach(([key, value]) => {
+              message.value = `${key}: ${value}`;
+            });
+          }
+        } 
         isSnackbarVisible.value = true;
       }
     }
