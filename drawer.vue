@@ -9,6 +9,7 @@ import type { ErrorResponse } from "@/types";
 import type { ValidateErrors } from "@/types/accounts/users";
 import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { VForm } from "vuetify/components/VForm";
+import Alert from "@/components/Alert.vue";
 
 interface Props {
   isDrawerOpen: boolean;
@@ -30,6 +31,7 @@ const refForm = ref<VForm>();
 const errors = ref<ValidateErrors | null>(null);
 const isSnackbarVisible = ref<boolean>(false);
 const message = ref<string>("");
+const messageType = ref<string>("error");
 
 const handleReset = () => {
   refForm.value?.reset();
@@ -49,6 +51,7 @@ const handleSubmit = () => {
         emit("submit");
         message.value = "Successfully";
         isSnackbarVisible.value = true;
+        messageType.value = "success";
         handleReset();
       } catch (error) {
         const { response } = error as ErrorResponse<ValidateErrors>;
@@ -63,6 +66,7 @@ const handleSubmit = () => {
           }
         } 
         isSnackbarVisible.value = true;
+        messageType.value = "error";
       }
     }
   });
@@ -143,7 +147,9 @@ watch(
     </PerfectScrollbar>
   </VNavigationDrawer>
 
-  <VSnackbar v-model="isSnackbarVisible" location="top" :timeout="3000" close>
-    {{ message }}
-  </VSnackbar>
+  <Alert
+    v-model:is-visible="isSnackbarVisible"
+    :message="message"
+    :type="messageType"
+  ></Alert>
 </template>
