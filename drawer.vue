@@ -72,7 +72,6 @@ const handleSubmit = () => {
   });
 };
 
-// type esc to close drawer
 useNavigationDrawerEscHandler("Escape", () =>
     handleDrawerModelValueUpdate(false)
 );
