@@ -27,7 +27,9 @@ const onCancel = () => {
     max-width="900"
   >
     <VCard class="text-center px-10 py-6">
-      <VCardText> </VCardText>
+      <VCardText>
+        <h6 class="text-lg font-weight-medium">Choose Item</h6>
+      </VCardText>
 
       <VCardText class="d-flex align-center justify-center gap-4">
         <VBtn variant="elevated" @click="onSubmit"> Submit </VBtn>

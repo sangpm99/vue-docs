@@ -34,8 +34,10 @@ const message = ref<string>("");
 const messageType = ref<string>("error");
 
 const handleReset = () => {
-  refForm.value?.reset();
-  refForm.value?.resetValidation();
+  nextTick(() => {
+    refForm.value?.reset();
+    refForm.value?.resetValidation();
+  });
 };
 
 const handleDrawerModelValueUpdate = (val: boolean) => {

@@ -140,6 +140,7 @@ onMounted(() => {
               :loading="integratedAccountStore.loading"
               :items="integratedAccounts"
               item-value="id"
+              return-object
               :items-length="itemLength"
               :headers="headers"
               hide-default-footer
@@ -150,7 +151,7 @@ onMounted(() => {
               <template #item.actions="{ item }">
                 <div class="d-flex cursor-pointer">
                   <IconBtn @click="onOpenUpdate(item)">
-                    <VIcon icon="ri-edit-box-line" color="warning" />
+                    <VIcon icon="ri-edit-box-line" color="primary"/>
                   </IconBtn>
 
                   <IconBtn @click="onOpenDelete(item)">
