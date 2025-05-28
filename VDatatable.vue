@@ -6,6 +6,7 @@ import type { SearchQuery } from "@/types";
 import type { ApiError, IntegratedAccount } from "@/types/integratedAccount";
 import CreateUpdateIntegratedAccountDrawer from "@/views/apps/intergratedAccount/CreateUpdateIntegratedAccountDrawer.vue";
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog.vue";
+import PaginationFrame from "@/components/PaginationFrame.vue";
 
 definePage({
   meta: {
