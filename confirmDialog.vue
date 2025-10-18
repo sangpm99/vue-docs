@@ -1,11 +1,3 @@
-<template>
-  <ConfirmDialog
-    v-model:isDialogVisible="isDialogVisible"
-    :confirmation-question="'Are you sure you want to delete this price?'"
-    @confirm="(value) => confirmDelete(value)"
-  ></ConfirmDialog>
-</template>
-
 <script setup lang="ts">
 import ConfirmDialog from "@/components/dialogs/ConfirmDialog.vue";
 
@@ -23,3 +15,11 @@ const confirmDelete = async (value: boolean) => {
   }
 };
 </script>
+
+<template>
+  <ConfirmDialog
+    v-model:isDialogVisible="isDialogVisible"
+    :confirmation-question="'Are you sure you want to delete this price?'"
+    @confirm="(value) => confirmDelete(value)"
+  ></ConfirmDialog>
+</template>

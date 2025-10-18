@@ -40,8 +40,8 @@ const handleReset = () => {
   });
 };
 
-const handleDrawerModelValueUpdate = (val: boolean) => {
-  emit("update:isDrawerOpen", val);
+const handleDrawerModelValueUpdate = (value: boolean) => {
+  emit("update:isDrawerOpen", value);
 };
 
 const handleSubmit = () => {
@@ -49,6 +49,7 @@ const handleSubmit = () => {
     if (valid) {
       try {
         // ... api
+        loading.value = true;
         handleDrawerModelValueUpdate(false);
         emit("submit");
         message.value = "Successfully";
@@ -69,14 +70,13 @@ const handleSubmit = () => {
         } 
         isSnackbarVisible.value = true;
         messageType.value = "error";
+      } finally {
+        loading.value = false;
       }
     }
   });
 };
 
-useNavigationDrawerEscHandler("Escape", () =>
-    handleDrawerModelValueUpdate(false)
-);
 
 watch(
     () => props.isDrawerOpen,
@@ -90,6 +90,11 @@ watch(
       }
     }
 );
+
+useNavigationDrawerEscHandler("Escape", () =>
+    handleDrawerModelValueUpdate(false)
+);
+
 </script>
 
 <template>
@@ -132,14 +137,14 @@ watch(
               <VCol cols="12">
                 <!-- Replace -->
                 <VTextField
-                    v-model="buyerEmail"
-                    density="compact"
-                    label="Buyer Email"
-                    prepend-inner-icon="ri-mail-line"
-                    placeholder="johndoe@gmail.com"
-                    :rules="[requiredValidator, emailValidator]"
-                    :error-messages="errors?.BuyerEmail"
-                />
+                  v-model="buyerEmail"
+                  density="compact"
+                  label="Buyer Email"
+                  prepend-inner-icon="ri-mail-line"
+                  placeholder="johndoe@gmail.com"
+                  :rules="[requiredValidator, emailValidator]"
+                  :error-messages="errors?.BuyerEmail"
+                ></VTextField>
               </VCol>
             </VRow>
           </VForm>
