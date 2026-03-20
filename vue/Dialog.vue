@@ -4,7 +4,7 @@ interface Props {
 }
 interface Emit {
   (e: "update:isDialogVisible", value: boolean): void;
-  (e: "submit", value: boolean): void;
+  (e: "submit"): void;
 }
 const props = defineProps<Props>();
 const emit = defineEmits<Emit>();

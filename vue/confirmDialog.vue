@@ -3,7 +3,7 @@ import ConfirmDialog from "@/components/dialogs/ConfirmDialog.vue";
 
 const isDialogVisible = ref<boolean>(false);
 
-const handleOpenDeleteDialog = (p: Price) => {
+const handleOpenDeleteDialog = (item: Price) => {
   price.value = p;
   isDialogVisible.value = true;
 };
