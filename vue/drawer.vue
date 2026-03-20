@@ -1,14 +1,15 @@
-
-
 <script lang="ts" setup>
 
 //// Important: Change id form first
 import { requiredValidator } from "@/@core/utils/validators";
 import { useNavigationDrawerEscHandler } from "@/composables";
-import type { ErrorResponse } from "@/types";
-import type { ValidateErrors } from "@/types/accounts/users";
+
 import { PerfectScrollbar } from "vue3-perfect-scrollbar";
 import { VForm } from "vuetify/components/VForm";
+
+import type { ErrorResponse } from "@/types";
+import type { ValidateErrors } from "@/types/accounts/users";
+
 import Alert from "@/components/Alert.vue";
 
 interface Props {
@@ -22,7 +23,7 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emit>();
 
 
-const loading: Ref<boolean> = ref(false)
+const loading = ref<boolean>(false)
 // replace
 const buyerEmail: Ref<string> = ref("");
 
@@ -33,8 +34,8 @@ const isSnackbarVisible = ref<boolean>(false);
 const message = ref<string>("");
 const messageType = ref<string>("error");
 
-const handleReset = () => {
-  nextTick(() => {
+const handleReset = async () => {
+  await nextTick(() => {
     refForm.value?.reset();
     refForm.value?.resetValidation();
   });
@@ -80,13 +81,9 @@ const handleSubmit = () => {
 
 watch(
     () => props.isDrawerOpen,
-    () => {
+    async () => {
       if (props.isDrawerOpen) {
-        handleReset();
-        tracking.value = {
-          trackingCarrier: props.trackingCarrier ?? "",
-          trackingNumber: props.trackingNumber ?? "",
-        };
+        await handleReset();
       }
     }
 );
