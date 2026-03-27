@@ -12,16 +12,13 @@ import type { ValidateErrors } from "@/types/accounts/users";
 
 import Alert from "@/components/Alert.vue";
 
-interface Props {
-  isDrawerOpen: boolean;
-}
 interface Emit {
   (e: "update:isDrawerOpen", value: boolean): void;
   (e: "submit"): void;
 }
-const props = defineProps<Props>();
 const emit = defineEmits<Emit>();
 
+const isDrawerOpen = defineModel<boolean>("is-drawer-open", {required: true})
 
 const loading = ref<boolean>(false)
 // replace
@@ -41,17 +38,13 @@ const handleReset = async () => {
   });
 };
 
-const handleDrawerModelValueUpdate = (value: boolean) => {
-  emit("update:isDrawerOpen", value);
-};
-
 const handleSubmit = () => {
   refForm.value?.validate().then(async ({ valid }) => {
     if (valid) {
       try {
         // ... api
         loading.value = true;
-        handleDrawerModelValueUpdate(false);
+        isDrawerOpen.value = false;
         emit("submit");
         message.value = "Successfully";
         isSnackbarVisible.value = true;
@@ -80,35 +73,34 @@ const handleSubmit = () => {
 
 
 watch(
-    () => props.isDrawerOpen,
+    () => isDrawerOpen.value,
     async () => {
-      if (props.isDrawerOpen) {
+      if (isDrawerOpen.value) {
         await handleReset();
       }
     }
 );
 
 useNavigationDrawerEscHandler("Escape", () =>
-    handleDrawerModelValueUpdate(false)
+    isDrawerOpen.value = false
 );
 
 </script>
 
 <template>
   <VNavigationDrawer
-      :model-value="props.isDrawerOpen"
+      v-model="isDrawerOpen"
       location="end"
       width="800"
       temporary
       border="none"
       class="scrollable-content"
       order="10"
-      @update:model-value="handleDrawerModelValueUpdate"
   >
     <!-- replace -->
     <AppDrawerHeaderSection
         title=""
-        @cancel="handleDrawerModelValueUpdate(false)"
+        @cancel="isDrawerOpen = false"
     >
       <template #beforeClose>
         <VBtn
@@ -127,7 +119,7 @@ useNavigationDrawerEscHandler("Escape", () =>
     <VDivider />
 
     <PerfectScrollbar :options="{ wheelPropagation: false }">
-      <VCard flat v-if="props.isDrawerOpen">
+      <VCard flat v-if="isDrawerOpen">
         <VCardText>
           <VForm id="form" ref="refForm" @submit.prevent="handleSubmit">
             <VRow>

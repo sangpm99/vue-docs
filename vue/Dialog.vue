@@ -27,6 +27,12 @@ const onCancel = () => {
     max-width="900"
   >
     <VCard class="text-center px-10 py-6">
+        <DialogCloseBtn
+          size="default"
+          variant="text"
+          @click="emit('update:isDialogVisible', false)"
+        />
+
       <VCardText>
         <h6 class="text-lg font-weight-medium">Choose Item</h6>
       </VCardText>
